@@ -102,12 +102,23 @@
     }
 
     function saveUserResponse(question, answer) {
-        // Enregistrez la réponse de l'utilisateur dans un fichier texte (simulation)
         var data = question + " | " + answer + "\n";
-        // Ici, vous devriez utiliser une méthode appropriée pour enregistrer les données dans un fichier
-        // Comme nous ne pouvons pas le faire dans un environnement purement HTML/JavaScript, cette étape est simulée.
+        localStorage.setItem("userResponses", (localStorage.getItem("userResponses") || "") + data);
         console.log("Réponse de l'utilisateur enregistrée : " + data);
     }
+
+    window.onload = function() {
+        var storedResponses = localStorage.getItem("userResponses");
+        if (storedResponses) {
+            var responseArea = document.getElementById("responseArea");
+            var responses = storedResponses.split("\n");
+            for (var i = 0; i < responses.length; i++) {
+                var p = document.createElement("p");
+                p.textContent = responses[i];
+                responseArea.appendChild(p);
+            }
+        }
+    };
 </script>
 
 </body>

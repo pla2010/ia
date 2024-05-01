@@ -66,11 +66,23 @@
 <script>
     document.getElementById("messageForm").addEventListener("submit", function(event) {
         event.preventDefault();
-        var userMessage = document.getElementById("userMessage").value;
-        // Ici, vous pouvez ajouter le code pour envoyer le message à votre IA et obtenir la réponse.
-        // Pour cet exemple, je vais simplement afficher le message de l'utilisateur.
+        var userMessage = document.getElementById("userMessage").value.trim();
+        if (userMessage === "") return; // Ne rien faire si le message de l'utilisateur est vide
         displayResponse("Utilisateur: " + userMessage);
+
+        // Ici, vous pouvez ajouter le code pour envoyer le message à votre IA et obtenir la réponse.
+        // Pour cet exemple, je vais simplement simuler la réponse de l'IA.
+        var iaResponse = simulateAIResponse(userMessage);
+        displayResponse("IA: " + iaResponse);
         document.getElementById("userMessage").value = "";
+
+        // Si la réponse de l'IA est une demande de réponse, demandez à l'utilisateur et enregistrez-la
+        if (iaResponse.includes("Je suis désolé, je ne connais pas la réponse")) {
+            var userResponse = prompt("Quelle est la réponse ?");
+            if (userResponse !== null && userResponse.trim() !== "") {
+                saveUserResponse(userMessage, userResponse);
+            }
+        }
     });
 
     function displayResponse(response) {
@@ -78,6 +90,23 @@
         var p = document.createElement("p");
         p.textContent = response;
         responseArea.appendChild(p);
+    }
+
+    function simulateAIResponse(message) {
+        // Simulation de la réponse de l'IA
+        if (message.toLowerCase().includes("bonjour")) {
+            return "Bonjour !";
+        } else {
+            return "Je suis désolé, je ne connais pas la réponse à cette question.";
+        }
+    }
+
+    function saveUserResponse(question, answer) {
+        // Enregistrez la réponse de l'utilisateur dans un fichier texte (simulation)
+        var data = question + " | " + answer + "\n";
+        // Ici, vous devriez utiliser une méthode appropriée pour enregistrer les données dans un fichier
+        // Comme nous ne pouvons pas le faire dans un environnement purement HTML/JavaScript, cette étape est simulée.
+        console.log("Réponse de l'utilisateur enregistrée : " + data);
     }
 </script>
 
